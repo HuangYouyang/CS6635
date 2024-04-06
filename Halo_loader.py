@@ -1,4 +1,15 @@
 from thingking import loadtxt
+import numpy as np
+
+'''
+self.scale: scale factor of halo
+self.id: id of halo (unique)
+self.desc_scale: scale of descendant halo
+self.desc_id: id of descendant halo
+self.num_prog: number of progenitors
+self.pid: host halo id #Pid: Host halo ID (-1 if distinct halo).
+self.upid: most massive halo id
+'''
 
 class Halo(object):
     def __init__(self, filename):
@@ -12,3 +23,7 @@ class Halo(object):
         self.M_pe_Behroozi, self.M_pe_Diemer, self.Macc, self.Mpeak, self.Vacc, self.Vpeak, self.Halfmass_Scale, \
         self.Acc_Rate_Inst, self.Acc_Rate_100Myr, self.Acc_Rate_Tdyn = \
             loadtxt(filename, unpack=True)
+
+        self.position = np.array([self.x, self.y, self.z]).T
+        self.velocity = np.array([self.vx, self.vx, self.vz]).T
+        self.angVel = np.array([self.Jx, self.Jy, self.Jz]).T # angular momenta

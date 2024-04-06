@@ -55,6 +55,6 @@ polydata.GetPointData().AddArray(phi_array)
 
 # create VTK object
 writer = vtk.vtkPolyDataWriter()
-writer.SetFileName("output.vtk")
+writer.SetFileName("particles.vtk")
 writer.SetInputData(polydata)
 writer.Write()

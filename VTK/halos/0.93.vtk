@@ -1,0 +1,14 @@
+# vtk DataFile Version 5.1
+vtk output
+ASCII
+DATASET POLYDATA
+POINTS 2 float
+1.02526 37.7971 13.6059 1.49321 37.2272 13.8274 
+POINT_DATA 2
+FIELD FieldData 3
+haloID 1 2 float
+618564 618565 
+time 1 2 float
+93 93 
+scale 1 2 float
+0.93 0.93 
