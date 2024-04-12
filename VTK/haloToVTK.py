@@ -8,12 +8,12 @@ time = 0.11
 t = 11
 prefix = "../../project/data/ds14_scivis_0128/"
 # filename = prefix + "rockstar/hlists/hlist_{0}000.list".format(time)
+filename = prefix + "rockstar/hlists/hlist_1.00000.list"
 
-for i in range(89):
+for i in range(1):
     time += 0.01
     t += 1
-    filename = prefix + "rockstar/hlists/hlist_{0:.2f}000.list".format(time)
-    print(filename)
+    # filename = prefix + "rockstar/hlists/hlist_{0:.2f}000.list".format(time)
 
     haloData = Halo(filename)
 
@@ -35,19 +35,25 @@ for i in range(89):
     scale_array.SetNumberOfComponents(1)
     scale_array.SetName("scale")
 
+    # Create an array to store the velocity
+    velocity_array = vtk.vtkFloatArray()
+    velocity_array.SetNumberOfComponents(3)
+    velocity_array.SetName("Velocity")
+
     for i in range(n):
-        if haloData.Tree_root_ID[i] == 676638:
-            x, y, z = haloData.position[i]
-            points.InsertNextPoint(x, y, z)
+        x, y, z = haloData.position[i]
+        points.InsertNextPoint(x, y, z)
 
-            id = abs(haloData.id[i])
-            haloId_array.InsertNextValue(id)
+        vx, vy, vz = haloData.velocity[i]
+        velocity_array.InsertNextTuple([vx, vy, vz])
 
-            scale = abs(haloData.scale[i])
-            scale_array.InsertNextValue(scale)
+        id = abs(haloData.id[i])
+        haloId_array.InsertNextValue(id)
 
-            time_array.InsertNextValue(t)
-            print(t)
+        scale = abs(haloData.scale[i])
+        scale_array.InsertNextValue(scale)
+
+        time_array.InsertNextValue(t)
 
     # create vtkPolyData object
     polydata = vtk.vtkPolyData()
@@ -56,9 +62,11 @@ for i in range(89):
     polydata.GetPointData().AddArray(haloId_array)
     polydata.GetPointData().AddArray(time_array)
     polydata.GetPointData().AddArray(scale_array)
+    polydata.GetPointData().AddArray(velocity_array)
 
     # create VTK object
     writer = vtk.vtkPolyDataWriter()
-    writer.SetFileName("./halos/{0:.2f}.vtk".format(time))
+    # writer.SetFileName("./halos/{0:.2f}.vtk".format(time))
+    writer.SetFileName("./Time_{0}.vtk".format(t))
     writer.SetInputData(polydata)
     writer.Write()

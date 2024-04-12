@@ -39,34 +39,34 @@ polydata = vtk.vtkPolyData()
 polydata.SetPoints(pts)
 
 # 创建VTK object
-writer = vtk.vtkPolyDataWriter()
-writer.SetFileName("output.vtk")
-writer.SetInputData(polydata)
-writer.Write()
+# writer = vtk.vtkPolyDataWriter()
+# writer.SetFileName("output.vtk")
+# writer.SetInputData(polydata)
+# writer.Write()
 
-# # 创建点的可视化表示
-# points_glyph = vtk.vtkVertexGlyphFilter()
-# points_glyph.SetInputData(polydata)
-#
-# # 创建 mapper 和 actor
-# mapper = vtk.vtkPolyDataMapper()
-# mapper.SetInputConnection(points_glyph.GetOutputPort())
-#
-# actor = vtk.vtkActor()
-# actor.SetMapper(mapper)
-# actor.GetProperty().SetColor(1.0, 0.0, 0.0)  # 设置为红色
-#
-# # 创建渲染器和渲染窗口
-# ren = vtk.vtkRenderer()
-# ren.SetBackground(1.0, 1.0, 1.0)
-# ren.AddActor(actor)
-# ren.ResetCamera()
-#
-# renWin = vtk.vtkRenderWindow()
-# renWin.SetSize(2560, 1600)
-# renWin.AddRenderer(ren)
-#
-# # 创建交互器并启动交互
-# iren = vtk.vtkRenderWindowInteractor()
-# iren.SetRenderWindow(renWin)
-# iren.Start()
+# 创建点的可视化表示
+points_glyph = vtk.vtkVertexGlyphFilter()
+points_glyph.SetInputData(polydata)
+
+# 创建 mapper 和 actor
+mapper = vtk.vtkPolyDataMapper()
+mapper.SetInputConnection(points_glyph.GetOutputPort())
+
+actor = vtk.vtkActor()
+actor.SetMapper(mapper)
+actor.GetProperty().SetColor(1.0, 0.0, 0.0)  # 设置为红色
+
+# 创建渲染器和渲染窗口
+ren = vtk.vtkRenderer()
+ren.SetBackground(1.0, 1.0, 1.0)
+ren.AddActor(actor)
+ren.ResetCamera()
+
+renWin = vtk.vtkRenderWindow()
+renWin.SetSize(2560, 1600)
+renWin.AddRenderer(ren)
+
+# 创建交互器并启动交互
+iren = vtk.vtkRenderWindowInteractor()
+iren.SetRenderWindow(renWin)
+iren.Start()
