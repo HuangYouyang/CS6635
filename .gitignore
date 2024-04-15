@@ -1,2 +1,3 @@
 /VTK/*.vtk
 /output/*
+/VTK/particles/*.vtk

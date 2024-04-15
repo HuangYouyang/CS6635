@@ -17,6 +17,10 @@ def update(frame, ax, particles_x_array, particles_y_array, particles_z_array, h
     ax.set_xlabel('x [cMpc/h]')
     ax.set_ylabel('y [cMpc/h]')
     if twoD:
+        ax.set_title('2D Projection of Particle Density')
+    else:
+        ax.set_title('3D Projection of Particle Density')
+    if twoD:
         ax.scatter(particles_x, particles_y, color='b', s=1.0, alpha=0.05)
         ax.scatter(halo_x, halo_y, color='r', alpha=0.1)
     else:
@@ -48,13 +52,9 @@ def particle_density_2d(startT, endT, animation=False, save=True, twoD=True):
         filenameParticle = prefix + "ds14_scivis_0128_e4_dt04_{0:.2f}00".format(time)
         particle = particleSDF(filenameParticle)
 
-        particles_x = particle.Positions.T[0]
-        particles_y = particle.Positions.T[1]
-        particles_z = particle.Positions.T[2]
-
-        particles_x = particles_x - particles_x.min()
-        particles_y = particles_y - particles_y.min()
-        particles_z = particles_z - particles_z.min()
+        particles_x = particle.PositionsOffset.T[0]
+        particles_y = particle.PositionsOffset.T[1]
+        particles_z = particle.PositionsOffset.T[2]
 
         particles_x_array.append(particles_x)
         particles_y_array.append(particles_y)
@@ -112,12 +112,21 @@ def particle_density_2d(startT, endT, animation=False, save=True, twoD=True):
 
                 saveDir = "../output/particle_density_2d_{0}.png".format(i)
             else:
+                fig.patch.set_facecolor('0.2')
                 ax = fig.add_subplot(111, projection="3d")
                 ax.scatter(particles_x_array[i],
                             particles_y_array[i],
-                            particles_z_array[i], color='b', s=1.0, alpha=0.05)
+                            particles_z_array[i], color='white', s=0.05, alpha=0.05)
 
-                ax.scatter(halo_x_array[i], halo_y_array[i], halo_z_array[i], color='r', alpha=0.1)
+                ax.scatter(halo_x_array[i], halo_y_array[i], halo_z_array[i], color='b', alpha=0.1)
+                ax.patch.set_facecolor('0.2')
+
+                ax.set_xlabel('x [cMpc/h]', color="white")
+                ax.set_ylabel('y [cMpc/h]', color="white")
+                ax.set_title('3D Projection of Particle Density', color="white")
+                ax.tick_params(axis='x', colors='white')
+                ax.tick_params(axis='y', colors='white')
+                ax.tick_params(axis='z', colors='white')
 
                 saveDir = "../output/particle_density_3d_{0}.png".format(i)
 
@@ -125,8 +134,8 @@ def particle_density_2d(startT, endT, animation=False, save=True, twoD=True):
                 plt.savefig(saveDir, bbox_inches='tight')
                 print("Finish saving" + saveDir)
 
-            plt.show()
+            # plt.show()
 
 
 if __name__ == '__main__':
-    particle_density_2d(0.12, 0.99, animation=True, save=True, twoD=False)
+    particle_density_2d(0.99, 0.99, animation=False, save=True, twoD=False)

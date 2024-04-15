@@ -12,6 +12,7 @@ class particleSDF(object):
     def init(self, filename):
         self.Particles = sdf.load_sdf(filename)
         self.Positions = self.getPosition()  # the position of the particles
+        self.PositionsOffset = self.getPositionOffset() # [position - minValue]
         self.Velocity = self.getVelocity()  # the velocity of the particles
         self.VelocityMagnitude = self.getVelocityMagnitude()
         self.Acceleration = self.getAcceleration()  # the acceleration of the particles
@@ -56,3 +57,16 @@ class particleSDF(object):
         return abs(np.sqrt(self.Velocity[:, 0] ** 2 +
                            self.Velocity[:, 1] ** 2 +
                            self.Velocity[:, 2] ** 2))
+
+    def getPositionOffset(self):
+        particles_x = self.Positions.T[0]
+        particles_y = self.Positions.T[1]
+        particles_z = self.Positions.T[2]
+
+        particles_x = particles_x - particles_x.min()
+        particles_y = particles_y - particles_y.min()
+        particles_z = particles_z - particles_z.min()
+
+        xyz = np.dstack((particles_x, particles_y, particles_z))[0]
+
+        return xyz
