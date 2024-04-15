@@ -96,11 +96,19 @@ def visualizeDatasets(particle_datasets,
     iren.Start()
 
 def main():
-    particle_dataset_filenames = [ "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_1.0000"
-                                 , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9900"
-                                 , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9800"
-                                 , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9700"
-                                 ]
+    time = 1.00
+    prefix = "../../project/data/ds14_scivis_0128/"
+    particle_dataset_filenames = []
+    for i in range(50):
+        time -= 0.01
+        filenames = prefix + "ds14_scivis_0128_e4_dt04_{0:.2f}00".format(time)
+        particle_dataset_filenames.append(filenames)
+
+    # particle_dataset_filenames = [ "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_1.0000"
+    #                              , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9900"
+    #                              , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9800"
+    #                              , "../../project/data/ds14_scivis_0128/ds14_scivis_0128_e4_dt04_0.9700"
+    #                              ]
     particle_datasets = [ load_sdf(filename) for filename in particle_dataset_filenames ]
 
     scale, id, desc_scale, desc_id, num_prog, pid, upid, desc_pid, phantom, \

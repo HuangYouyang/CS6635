@@ -10,7 +10,7 @@ from particle_loader import particleSDF
 
 time = 0.01
 prefix = "../../project/data/ds14_scivis_0128/"
-filename = prefix + "ds14_scivis_0128_e4_dt04_1.0000"
+filename = prefix + "ds14_scivis_0128_e4_dt04_0.9800"
 
 for i in range(1):
     time += 0.01
@@ -24,6 +24,11 @@ for i in range(1):
     velocity_array = vtk.vtkFloatArray()
     velocity_array.SetNumberOfComponents(3)  # Number of components per tuple (3 for vectors)
     velocity_array.SetName("Velocity")  # Name of the property
+
+    # Create an array to store the velocity magnitude
+    velocityM_array = vtk.vtkFloatArray()
+    velocityM_array.SetNumberOfComponents(1)  # Number of components per tuple (3 for vectors)
+    velocityM_array.SetName("VelocityMagnitude")  # Name of the property
 
     # Create an array to store the acceleration
     acceleration_array = vtk.vtkFloatArray()
@@ -56,11 +61,12 @@ for i in range(1):
     polydata.GetPointData().AddArray(velocity_array)
     polydata.GetPointData().AddArray(acceleration_array)
     polydata.GetPointData().AddArray(phi_array)
+    polydata.GetPointData().AddArray(velocityM_array)
 
     # create VTK object
     writer = vtk.vtkPolyDataWriter()
-    # writer.SetFileName("particles.vtk")
-    writer.SetFileName("../particles/"+filename+".vtk")
+    writer.SetFileName("particles_3.vtk")
+    # writer.SetFileName("../particles/"+filename+".vtk")
     writer.SetInputData(polydata)
     writer.Write()
 

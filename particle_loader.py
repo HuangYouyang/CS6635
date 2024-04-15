@@ -1,6 +1,7 @@
 import numpy as np
 import sdf
 
+
 class particleSDF(object):
     def __init__(self, filename, cMpc=True):
         super(particleSDF, self).__init__()
@@ -10,9 +11,10 @@ class particleSDF(object):
 
     def init(self, filename):
         self.Particles = sdf.load_sdf(filename)
-        self.Positions = self.getPosition() # the position of the particles
-        self.Velocity = self.getVelocity() # the velocity of the particles
-        self.Acceleration = self.getAcceleration() # the acceleration of the particles
+        self.Positions = self.getPosition()  # the position of the particles
+        self.Velocity = self.getVelocity()  # the velocity of the particles
+        self.VelocityMagnitude = self.getVelocityMagnitude()
+        self.Acceleration = self.getAcceleration()  # the acceleration of the particles
         self.Num = self.Particles.parameters['npart_orig']
         self.Phi = self.Particles['phi']
 
@@ -21,7 +23,7 @@ class particleSDF(object):
         x = self.Particles['x']
         y = self.Particles['y']
         z = self.Particles['z']
-        xyz = np.dstack((x,y,z))[0]
+        xyz = np.dstack((x, y, z))[0]
         if self.isCoMoving:
             return self.toCoMoving(xyz)
         else:
@@ -49,3 +51,8 @@ class particleSDF(object):
         sl = slice(0, None)
         convert_to_cMpc = lambda proper: (proper + width / 2.) * h_100 * kpc_to_Mpc / cosmo_a
         return convert_to_cMpc(property)
+
+    def getVelocityMagnitude(self):
+        return abs(np.sqrt(self.Velocity[:, 0] ** 2 +
+                           self.Velocity[:, 1] ** 2 +
+                           self.Velocity[:, 2] ** 2))
