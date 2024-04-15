@@ -22,8 +22,9 @@ for index, line in enumerate(lines):
             if next_line[:5] == "#tree":
                 break
             else:
-                p = next_line.split(" ")
-                particle.append(p)
+                p = [float(x) for x in next_line.split()]
+                particle.append(len(p))
             next_line_index += 1
+        print(particle)
         trees[treeId] = particle
         particle = []  # 重新创建空列表
